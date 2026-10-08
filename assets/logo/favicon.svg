@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="favBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3A1F11"/>
+      <stop offset="50%" stop-color="#24130A"/>
+      <stop offset="100%" stop-color="#150A05"/>
+    </linearGradient>
+
+    <linearGradient id="favGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FCE5A2"/>
+      <stop offset="50%" stop-color="#DFB559"/>
+      <stop offset="100%" stop-color="#9C7225"/>
+    </linearGradient>
+
+    <linearGradient id="favWood" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#552F1B"/>
+      <stop offset="100%" stop-color="#32180C"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Luxury Rounded Background Plaque -->
+  <rect width="64" height="64" rx="14" fill="url(#favBg)"/>
+  <rect x="2" y="2" width="60" height="60" rx="12" stroke="url(#favGold)" stroke-width="1.6" stroke-opacity="0.85"/>
+
+  <!-- PW + House Monogram Scaled for Favicon (Scale ~0.48, Offset (7, 6)) -->
+  <g transform="translate(6, 6) scale(0.44)">
+    <!-- P Stem -->
+    <path d="M 18 16 L 36 16 L 36 102 L 18 102 Z" fill="url(#favGold)"/>
+    
+    <!-- House Gable Roof -->
+    <path d="M 32 40 L 56 22 L 80 40 L 76 43 L 56 27 L 35 43 Z" fill="url(#favGold)"/>
+    
+    <!-- 4-Pane Window Grid -->
+    <rect x="51.5" y="31.5" width="4" height="4" rx="0.5" fill="#FFEAA8"/>
+    <rect x="57" y="31.5" width="4" height="4" rx="0.5" fill="#FFEAA8"/>
+    <rect x="51.5" y="37" width="4" height="4" rx="0.5" fill="#FFEAA8"/>
+    <rect x="57" y="37" width="4" height="4" rx="0.5" fill="#FFEAA8"/>
+
+    <!-- P Loop / Arch -->
+    <path d="M 36 16 C 62 16 82 25 86 41 C 90 55 80 65 64 65 L 46 65 L 46 58 L 64 58 C 75 58 82 51 79 41 C 76 29 61 21 36 21 Z" 
+          fill="url(#favGold)"/>
+
+    <!-- W Interlocking Center Stroke -->
+    <polygon points="32,96 40,96 68,48 60,48" fill="url(#favGold)"/>
+    
+    <!-- W Right Wing Stroke -->
+    <polygon points="68,96 77,96 102,32 93,31" fill="url(#favGold)"/>
+  </g>
+</svg>

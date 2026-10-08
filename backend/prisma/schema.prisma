@@ -1,0 +1,178 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum InquiryStatus {
+  NEW
+  CONTACTED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum ServiceStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum ProjectStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum MessageStatus {
+  UNREAD
+  READ
+  RESPONDED
+  ARCHIVED
+}
+
+model AdminUser {
+  id           String   @id @default(uuid())
+  username     String   @unique
+  email        String   @unique
+  passwordHash String
+  fullName     String
+  role         String   @default("ADMIN")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("admin_users")
+}
+
+model Service {
+  id           String          @id @default(uuid())
+  name         String
+  slug         String          @unique
+  description  String          @db.Text
+  image        String?
+  status       ServiceStatus   @default(ACTIVE)
+  displayOrder Int             @default(0)
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+
+  inquiries    CustomerInquiry[]
+
+  @@index([status])
+  @@index([displayOrder])
+  @@map("services")
+}
+
+model Project {
+  id          String         @id @default(uuid())
+  title       String
+  slug        String         @unique
+  category    String
+  description String         @db.Text
+  location    String
+  coverImage  String
+  featured    Boolean        @default(false)
+  status      ProjectStatus  @default(PUBLISHED)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  images      ProjectImage[]
+
+  @@index([category])
+  @@index([featured])
+  @@index([status])
+  @@map("projects")
+}
+
+model ProjectImage {
+  id           String   @id @default(uuid())
+  projectId    String
+  project      Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  imageUrl     String
+  altText      String?
+  displayOrder Int      @default(0)
+  createdAt    DateTime @default(now())
+
+  @@index([projectId])
+  @@map("project_images")
+}
+
+model CustomerInquiry {
+  id          String        @id @default(uuid())
+  fullName    String
+  phone       String
+  email       String
+  location    String
+  serviceId   String?
+  service     Service?      @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+  budgetRange String?
+  description String        @db.Text
+  status      InquiryStatus @default(NEW)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([status])
+  @@index([createdAt])
+  @@map("customer_inquiries")
+}
+
+model ContactMessage {
+  id        String        @id @default(uuid())
+  name      String
+  email     String
+  phone     String?
+  message   String        @db.Text
+  status    MessageStatus @default(UNREAD)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@index([status])
+  @@index([createdAt])
+  @@map("contact_messages")
+}
+
+model Testimonial {
+  id               String   @id @default(uuid())
+  customerName     String
+  customerLocation String
+  content          String   @db.Text
+  rating           Int      @default(5)
+  customerImage    String?
+  approved         Boolean  @default(false)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([approved])
+  @@map("testimonials")
+}
+
+model BusinessInformation {
+  id           String   @id @default(uuid())
+  businessName String   @default("Piro Woody Concepts")
+  phone        String   @default("08137808170")
+  whatsapp     String   @default("[TO BE PROVIDED]")
+  email        String   @default("[TO BE PROVIDED]")
+  address      String   @default("[TO BE PROVIDED]")
+  businessHours String  @default("[TO BE PROVIDED]")
+  description  String   @default("[TO BE PROVIDED]") @db.Text
+  serviceAreas String[] @default(["Enugu", "Lagos", "Abuja", "Port Harcourt", "Nationwide and beyond"])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("business_information")
+}
+
+model SocialLink {
+  id           String   @id @default(uuid())
+  platform     String
+  username     String
+  url          String
+  active       Boolean  @default(true)
+  displayOrder Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([active])
+  @@map("social_links")
+}
